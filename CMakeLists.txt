@@ -22,7 +22,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SFML)
 
-add_executable(SpaceDefenderCpp src/main.cpp)
+# add_executable(SpaceDefenderCpp src/main.cpp)
+
+# Źródła
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE HEADERS "src/*.hpp" "src/*.h")
+
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(SpaceDefenderCpp
     SFML::System
@@ -36,5 +42,13 @@ if (WIN32)
             $<TARGET_RUNTIME_DLLS:SpaceDefenderCpp>
             $<TARGET_FILE_DIR:SpaceDefenderCpp>
         COMMAND_EXPAND_LISTS
+    )
+endif()
+
+if (WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
     )
 endif()

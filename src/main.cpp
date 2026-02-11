@@ -1,17 +1,16 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "main.hpp"
 
 int main()
 {
     std::cout << "Starting SFML 3 app...\n";
-
+    Managers::AssetsManager assetManager();
     // Tworzenie okna
     sf::RenderWindow window(
-        sf::VideoMode({800, 600}),
+        sf::VideoMode({GAME_FILED_H, GAME_FIELD_W}),
         "SFML 3 - Test Window"
     );
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(FRAME_LIMIT);
 
     // Prosty obiekt do rysowania
     sf::RectangleShape rect;
