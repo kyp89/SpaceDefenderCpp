@@ -8,6 +8,7 @@
       "program": "${workspaceFolder}/build/SpaceDefenderCpp.exe",
       "cwd": "${workspaceFolder}/build",
       "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
       "preLaunchTask": "Build All",
       "externalConsole": true
     }
