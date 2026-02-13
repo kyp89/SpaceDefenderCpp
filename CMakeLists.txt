@@ -13,42 +13,54 @@ include(FetchContent)
 
 set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
 
+# ================= SFML =================
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 3.0.2
     GIT_SHALLOW ON
 )
-
 FetchContent_MakeAvailable(SFML)
 
-# add_executable(SpaceDefenderCpp src/main.cpp)
+# ================= Assets Manager =================
+FetchContent_Declare(
+    ASSET_MANAGER
+    GIT_REPOSITORY https://github.com/kyp89/assets-manager.git
+    GIT_SHALLOW ON
+)
+FetchContent_MakeAvailable(ASSET_MANAGER)
 
-# Źródła
+FetchContent_GetProperties(ASSET_MANAGER)
+
+# ================= Sources =================
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE HEADERS "src/*.hpp" "src/*.h")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(SpaceDefenderCpp
-    SFML::System
-    SFML::Window
-    SFML::Graphics
+# ================= AssetsManager INTERFACE =================
+
+
+# ================= Link libraries =================
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        AssetsManager
+        SFML::System
+        SFML::Window
+        SFML::Graphics
 )
 
-if (WIN32)
-    add_custom_command(TARGET SpaceDefenderCpp POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_RUNTIME_DLLS:SpaceDefenderCpp>
-            $<TARGET_FILE_DIR:SpaceDefenderCpp>
-        COMMAND_EXPAND_LISTS
-    )
-endif()
-
+# ================= Windows DLL copy =================
 if (WIN32)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        COMMAND_EXPAND_LISTS
+    )
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
+            ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
     )
 endif()
