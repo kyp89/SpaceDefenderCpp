@@ -32,6 +32,16 @@ FetchContent_MakeAvailable(ASSET_MANAGER)
 
 FetchContent_GetProperties(ASSET_MANAGER)
 
+# ================= Game Common =================
+FetchContent_Declare(
+    GAME_COMMON
+    GIT_REPOSITORY https://github.com/kyp89/game-common.git
+    GIT_SHALLOW ON
+)
+FetchContent_MakeAvailable(GAME_COMMON)
+
+FetchContent_GetProperties(GAME_COMMON)
+
 # ================= Sources =================
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
@@ -43,6 +53,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # ================= Link libraries =================
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
+        GameCommon
         AssetsManager
         SFML::System
         SFML::Window
