@@ -4,9 +4,11 @@
 #include <set>
 
 #include "managers/assetResolver/assetResolver.hpp"
+#include "managers/drawer/drawer.hpp"
 #include <game-common/gameCommon.hpp>
 
 #include "gameElements/player/player.hpp"
+#include "gameElements/background/background.hpp"
 #include "assetList.hpp"
 
 const std::string APPLICATION_NAME = "SPACE DEFENDER";

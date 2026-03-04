@@ -4,6 +4,8 @@ int main()
 {
     std::cout << "Starting SFML 3 app...\n";
     Managers::AssetResolver assetResolver(ASSETS_PATH, TEXTURE_LIST);
+    Managers::Drawer drawer(assetResolver);
+    GameElements::Background background;
     GameElements::Player player;
     // Tworzenie okna
     sf::RenderWindow window(
@@ -26,11 +28,11 @@ int main()
     assetResolver.loadAsset("PLAYER_SHIP");
     assetResolver.loadAsset("BACKGROUND_BLUE");
 
-    auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
+    //auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
 
 
-    sf::Sprite backgroundSprite(backgroundTexture);
-    backgroundSprite.setPosition({200.f, 0.f});
+    // sf::Sprite backgroundSprite(backgroundTexture);
+    // backgroundSprite.setPosition({200.f, 0.f});
 
     // Pętla główna
     while (window.isOpen())
@@ -47,16 +49,13 @@ int main()
 
         // Rysowanie
         window.clear(sf::Color(30, 30, 30));
-        window.draw(backgroundSprite);
+        background.update();
         player.update();
+        auto backgroundTextureMap = background.getTextureStatuses();
         auto textureMap = player.getTextureStatuses();
-        for(auto& [key, value]: textureMap) {
-            auto texture = assetResolver.getTexture(key);
-            sf::Sprite playerSprite(texture);
-            playerSprite.setPosition({value.x, value.y});
-            window.draw(playerSprite);
-        }
-
+        drawer.update(window, backgroundTextureMap);
+        drawer.update(window, textureMap);
+        
         window.display();
     }
 

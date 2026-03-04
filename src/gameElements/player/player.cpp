@@ -17,6 +17,9 @@ namespace GameElements {
             if(key == "PLAYER_SHIP") {
                 value.x = x;
                 value.y = y;
+                value.scaleX = 1;
+                value.scaleY = 1;
+                value.rotate = 0;
             }
         }
      }
