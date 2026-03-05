@@ -9,6 +9,7 @@
 
 #include "gameElements/player/player.hpp"
 #include "gameElements/background/background.hpp"
+#include "gameElements/meteor/meteor.hpp"
 #include "assetList.hpp"
 
 const std::string APPLICATION_NAME = "SPACE DEFENDER";

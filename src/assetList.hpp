@@ -12,6 +12,10 @@ std::unordered_map<std::string, std::string> TEXTURE_LIST = {
         {
             "BACKGROUND_BLUE",
             "imgs/backgroundBlue.png"
+        },
+        {
+            "METEOR_1",
+            "imgs/meteor1.png"
         }
     };
 

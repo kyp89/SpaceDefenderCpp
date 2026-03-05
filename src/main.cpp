@@ -7,6 +7,7 @@ int main()
     Managers::Drawer drawer(assetResolver);
     GameElements::Background background;
     GameElements::Player player;
+    GameElements::Meteor meteor;
     // Tworzenie okna
     sf::RenderWindow window(
         sf::VideoMode({GAME_FILED_H, GAME_FIELD_W}),
@@ -27,6 +28,7 @@ int main()
 
     assetResolver.loadAsset("PLAYER_SHIP");
     assetResolver.loadAsset("BACKGROUND_BLUE");
+    assetResolver.loadAsset("METEOR_1");
 
     //auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
 
@@ -51,10 +53,14 @@ int main()
         window.clear(sf::Color(30, 30, 30));
         background.update();
         player.update();
+        meteor.update();
         auto backgroundTextureMap = background.getTextureStatuses();
         auto textureMap = player.getTextureStatuses();
-        drawer.update(window, backgroundTextureMap);
-        drawer.update(window, textureMap);
+        auto meteorTextureMap = meteor.getTextureStatuses();
+        drawer.addToUpdate(backgroundTextureMap);
+        drawer.addToUpdate(textureMap);
+        drawer.addToUpdate(meteorTextureMap);
+        drawer.update(window);
         
         window.display();
     }
