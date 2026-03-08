@@ -29,6 +29,7 @@ int main()
     assetResolver.loadAsset("PLAYER_SHIP");
     assetResolver.loadAsset("BACKGROUND_BLUE");
     assetResolver.loadAsset("METEOR_1");
+    assetResolver.loadAsset("GUN");
 
     //auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
 
@@ -52,14 +53,15 @@ int main()
         // Rysowanie
         window.clear(sf::Color(30, 30, 30));
         background.update();
-        player.update();
+        player.update(1);
         meteor.update();
-        auto backgroundTextureMap = background.getTextureStatuses();
-        auto textureMap = player.getTextureStatuses();
-        auto meteorTextureMap = meteor.getTextureStatuses();
+        const auto& backgroundTextureMap = background.getDrawableElements();
+        const auto& playerDrawableElements = player.getDrawableElements();
+        // auto meteorTextureMap = meteor.getTextureStatuses();
         drawer.addToUpdate(backgroundTextureMap);
-        drawer.addToUpdate(textureMap);
-        drawer.addToUpdate(meteorTextureMap);
+        drawer.addToUpdate(playerDrawableElements);
+        // drawer.addToUpdate(playerDrawableElements);
+        //drawer.addToUpdate(meteorTextureMap);
         drawer.update(window);
         
         window.display();

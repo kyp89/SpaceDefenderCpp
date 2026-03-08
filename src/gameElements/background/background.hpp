@@ -6,13 +6,11 @@
 #include <game-common/gameCommon.hpp>
 
 namespace GameElements {
-    class Background {
+    class Background: public GameCommon::DrawableContainer {
         public:
             Background();
             void update();
-            const std::unordered_map<std::string, GameCommon::Transform>& getTextureStatuses() const;
-        protected:
-            std::unordered_map<std::string, GameCommon::Transform> _textures;
+            GameCommon::DrawableElement* BACKGROUND_1;
     };
 }
 

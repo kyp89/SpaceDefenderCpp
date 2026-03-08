@@ -5,25 +5,25 @@ namespace Managers {
         _assetResolver = &assetResolver;
     }
 
-    void Drawer::addToUpdate(std::unordered_map<std::string, GameCommon::Transform>& toUpdate) {
-        _toUpdate.push_back(toUpdate);
+    void Drawer::addToUpdate(const std::vector<std::unique_ptr<GameCommon::DrawableElement>>& toUpdate) {
+        for (const auto& e : toUpdate) {
+            _toUpdate.push_back(e.get());
+        }
     }
 
     void Drawer::update(sf::RenderWindow& window) {
-        for(auto& toUpdate: _toUpdate) {
-            for(auto& [key, value]: toUpdate) {
-                auto texture = _assetResolver->getTexture(key);
-                sf::Sprite sprite(texture);
-                sprite.setPosition({value.x, value.y});
-                sprite.setScale({value.scaleX, value.scaleY});
-                if(value.rotate > 0){
+        for(auto* e:_toUpdate) {
+            auto texture = _assetResolver->getTexture(e->img);
+            sf::Sprite sprite(texture);
+                sprite.setPosition({e->x, e->y});
+                sprite.setScale({e->scaleX, e->scaleY});
+                if(e->rotate > 0){
                     auto originX = sprite.getLocalBounds().size.x / 2;
                     auto originY = sprite.getLocalBounds().size.y / 2;
                     sprite.setOrigin({originX, originY});             
-                    sprite.setRotation(sf::degrees(value.rotate));
+                    sprite.setRotation(sf::degrees(e->rotate));
                 }
                 window.draw(sprite);
-            }
         }
         _toUpdate.clear();
     }

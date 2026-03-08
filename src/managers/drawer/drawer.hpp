@@ -12,11 +12,12 @@ namespace Managers {
     class Drawer {
         public:
             Drawer(AssetResolver& assetResolver);
-            void addToUpdate(std::unordered_map<std::string, GameCommon::Transform>& toUpdate);
+            void addToUpdate(const std::vector<std::unique_ptr<GameCommon::DrawableElement>>& toUpdate);
             void update(sf::RenderWindow& window);
         private:
             AssetResolver* _assetResolver;
-            std::vector<std::unordered_map<std::string, GameCommon::Transform>> _toUpdate;
+            //TODO - upewnić się że wewnętrzne vectory to wskaźniki do vektorów od kontenerów
+            std::vector<GameCommon::DrawableElement*> _toUpdate;
     };
 }
 
