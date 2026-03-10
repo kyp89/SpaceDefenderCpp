@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <game-common/gameCommon.hpp>
 #include "../assetResolver/assetResolver.hpp"

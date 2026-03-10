@@ -6,7 +6,7 @@ namespace GameElements {
       shipPtr->img = "PLAYER_SHIP";
       shipPtr->index = 2;
       shipPtr->x = 300.0f;
-      shipPtr->y = 300.0f;
+      shipPtr->y = 800.0f;
       shipPtr->scaleX = 1;
       shipPtr->scaleY = 1;
       SHIP = shipPtr.get();
@@ -15,7 +15,7 @@ namespace GameElements {
       gunRightPtr->img = "GUN";
       gunRightPtr->index = 1;
       gunRightPtr->x = 300.0f - 5;
-      gunRightPtr->y = 300.0f + 20;
+      gunRightPtr->y = 800.0f + 20;
       gunRightPtr->scaleX = 1;
       gunRightPtr->scaleY = 1;
       GUN_RIGHT = gunRightPtr.get();
@@ -24,7 +24,7 @@ namespace GameElements {
       gunLeftPtr->img = "GUN";
       gunLeftPtr->index = 1;
       gunLeftPtr->x = 300.0f + 90;
-      gunLeftPtr->y = 300.0f + 20;
+      gunLeftPtr->y = 800.0f + 20;
       gunLeftPtr->scaleX = 1;
       gunLeftPtr->scaleY = 1;
       GUN_LEFT = gunLeftPtr.get();

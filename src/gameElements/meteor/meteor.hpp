@@ -9,16 +9,12 @@ int const METEOR_SPEED = 2;
 
 namespace GameElements
 {
-    class Meteor
-    {
+    class Meteor: public GameCommon::DrawableContainer {
         public:
             Meteor();
             void update();
-            const std::unordered_map<std::string, GameCommon::Transform>& getTextureStatuses() const;
-        protected:
-            std::unordered_map<std::string, GameCommon::Transform> _textures;
+            GameCommon::DrawableElement* METEOR;
     };
 }
-
 
 #endif

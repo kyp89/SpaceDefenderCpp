@@ -13,6 +13,9 @@ namespace Managers {
 
     void Drawer::update(sf::RenderWindow& window) {
         for(auto* e:_toUpdate) {
+            std::cout << e->img << std::endl;
+            std::cout << e->x << std::endl;
+            std::cout << e->x << std::endl;
             auto texture = _assetResolver->getTexture(e->img);
             sf::Sprite sprite(texture);
                 sprite.setPosition({e->x, e->y});
@@ -23,6 +26,8 @@ namespace Managers {
                     sprite.setOrigin({originX, originY});             
                     sprite.setRotation(sf::degrees(e->rotate));
                 }
+                std::cout << "x: "<< sprite.getPosition().x << ", y: " << sprite.getPosition().y << std::endl;
+                std::cout << "width: "<< sprite.getGlobalBounds().size.x << ", height: " << sprite.getGlobalBounds().size.y << std::endl;
                 window.draw(sprite);
         }
         _toUpdate.clear();

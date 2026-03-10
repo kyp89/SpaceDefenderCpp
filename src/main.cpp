@@ -8,6 +8,7 @@ int main()
     GameElements::Background background;
     GameElements::Player player;
     GameElements::Meteor meteor;
+    GameElements::Laser laser;
     // Tworzenie okna
     sf::RenderWindow window(
         sf::VideoMode({GAME_FILED_H, GAME_FIELD_W}),
@@ -30,6 +31,7 @@ int main()
     assetResolver.loadAsset("BACKGROUND_BLUE");
     assetResolver.loadAsset("METEOR_1");
     assetResolver.loadAsset("GUN");
+    assetResolver.loadAsset("LASER");
 
     //auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
 
@@ -53,15 +55,17 @@ int main()
         // Rysowanie
         window.clear(sf::Color(30, 30, 30));
         background.update();
-        player.update(1);
+        //player.update(1);
         meteor.update();
+        laser.update();
         const auto& backgroundTextureMap = background.getDrawableElements();
         const auto& playerDrawableElements = player.getDrawableElements();
-        // auto meteorTextureMap = meteor.getTextureStatuses();
+        const auto& meteorTextureMap = meteor.getDrawableElements();
+        const auto& laserTextureMap = laser.getDrawableElements();
         drawer.addToUpdate(backgroundTextureMap);
+        drawer.addToUpdate(laserTextureMap);
         drawer.addToUpdate(playerDrawableElements);
-        // drawer.addToUpdate(playerDrawableElements);
-        //drawer.addToUpdate(meteorTextureMap);
+        drawer.addToUpdate(meteorTextureMap);
         drawer.update(window);
         
         window.display();

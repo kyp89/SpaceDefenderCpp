@@ -1,28 +1,23 @@
 #include "meteor.hpp"
 
 namespace GameElements {
-    Meteor::Meteor():
-    _textures{
-        {
-            "METEOR_1",
-            GameCommon::Transform()
-        }
-    } {
-        auto& transform = _textures["METEOR_1"];
-        transform.x = 100;
-        transform.y = 100;
-        transform.scaleX = 1;
-        transform.scaleY = 1;
+    Meteor::Meteor() {
+        auto meteorPtr = std::make_unique<GameCommon::DrawableElement>();
+        meteorPtr->img = "METEOR_1";
+        meteorPtr->x = 100;
+        meteorPtr->y = 100;
+        meteorPtr->scaleX = 1;
+        meteorPtr->scaleY = 1;
+        METEOR = meteorPtr.get();
+        _drawableElementsList.push_back(std::move(meteorPtr));
+
     }
 
     void Meteor::update() {
-        auto& transform = _textures["METEOR_1"];
-        transform.y += 1 * METEOR_SPEED;
-        transform.rotate += 1 * METEOR_SPEED;
-
-    }
-
-    const std::unordered_map<std::string, GameCommon::Transform>& Meteor::getTextureStatuses() const {
-        return _textures;
+        METEOR->y += 1 * METEOR_SPEED;
+        METEOR->rotate += 1 * METEOR_SPEED;
+        if(METEOR->y > 1024) {
+            METEOR->y = -100;
+        }
     }
 }

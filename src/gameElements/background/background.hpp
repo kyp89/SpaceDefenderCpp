@@ -11,6 +11,7 @@ namespace GameElements {
             Background();
             void update();
             GameCommon::DrawableElement* BACKGROUND_1;
+            GameCommon::DrawableElement* BACKGROUND_2;
     };
 }
 
