@@ -1,25 +1,24 @@
 #include "main.hpp"
 
-std::unordered_map<std::string, std::string> TEXTURE_LIST = {
-        {
-            "PLAYER_SHIP",
-            "imgs/playerShip.png"
-        },
-        {
-            "BACKGROUND_BLUE",
-            "imgs/backgroundBlue.png"
-        }
-    };
-
 int main()
 {
     std::cout << "Starting SFML 3 app...\n";
+    sf::Clock clock;
     Managers::AssetResolver assetResolver(ASSETS_PATH, TEXTURE_LIST);
+    Managers::Drawer drawer(assetResolver);
+    Managers::MeteorsManager meteorsManager(50, -50, 950, 1000);
+    GameElements::Background background;
+    GameElements::Player player;
+    GameElements::Laser laser;
     // Tworzenie okna
     sf::RenderWindow window(
         sf::VideoMode({GAME_FILED_H, GAME_FIELD_W}),
         "SFML 3 - Test Window"
     );
+
+    GameCommon::Transform transform;
+    transform.x = 10.f;
+    transform.y = 20.f;
 
     window.setFramerateLimit(FRAME_LIMIT);
 
@@ -31,15 +30,12 @@ int main()
 
     assetResolver.loadAsset("PLAYER_SHIP");
     assetResolver.loadAsset("BACKGROUND_BLUE");
-
-    auto playerTexture = assetResolver.getTexture("PLAYER_SHIP");
-    auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
-
-    sf::Sprite playerSprite(playerTexture);
-    playerSprite.setPosition({600.f, 600.f});
-
-    sf::Sprite backgroundSprite(backgroundTexture);
-    backgroundSprite.setPosition({200.f, 0.f});
+    assetResolver.loadAsset("METEOR_1");
+    assetResolver.loadAsset("METEOR_2");
+    assetResolver.loadAsset("METEOR_3");
+    assetResolver.loadAsset("METEOR_4");
+    assetResolver.loadAsset("GUN");
+    assetResolver.loadAsset("LASER");
 
     // Pętla główna
     while (window.isOpen())
@@ -52,13 +48,27 @@ int main()
                 window.close();
             }
         }
-        //std::set<std::string>
+        float deltaTime = clock.restart().asSeconds();
 
-        // Rysowanie
         window.clear(sf::Color(30, 30, 30));
-        window.draw(backgroundSprite);
-        window.draw(playerSprite);
-        window.draw(rect);
+
+        background.update();
+        meteorsManager.update(deltaTime);
+        laser.update();
+
+        const auto& backgroundTextureMap = background.getDrawableElements();
+        const auto& playerDrawableElements = player.getDrawableElements();
+        const auto& laserTextureMap = laser.getDrawableElements();
+        const auto& meteorsDrawable = meteorsManager.getMeteors();
+
+        drawer.addToUpdate(backgroundTextureMap);
+        drawer.addToUpdate(laserTextureMap);
+        drawer.addToUpdate(playerDrawableElements);
+        for(auto& meteorDrawable: meteorsDrawable) {
+            drawer.addToUpdate(meteorDrawable->getDrawableElements());
+        }
+        drawer.update(window);
+        
         window.display();
     }
 
