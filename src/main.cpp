@@ -8,9 +8,9 @@ int main()
     Managers::Drawer drawer(assetResolver);
     Managers::ControlsManager controlManager(KEYS_MAPPING);
     Managers::MeteorsManager meteorsManager(50, -50, 950, 1000);
+    Managers::LaserManager laserManager(-100);
     GameElements::Background background;
     GameElements::Player player;
-    GameElements::Laser laser;
     // Tworzenie okna
     sf::RenderWindow window(
         sf::VideoMode({GAME_FILED_H, GAME_FIELD_W}),
@@ -56,20 +56,23 @@ int main()
         background.update();
 
         controlManager.update();
+        laserManager.update();
         player.update(controlManager.getCurrentActions());
+        laserManager.emit(controlManager.getCurrentActions(), player.getLasersEmitterPoints(), deltaTime);
         meteorsManager.update(deltaTime);
-        laser.update();
 
         const auto& backgroundTextureMap = background.getDrawableElements();
         const auto& playerDrawableElements = player.getDrawableElements();
-        const auto& laserTextureMap = laser.getDrawableElements();
         const auto& meteorsDrawable = meteorsManager.getMeteors();
+        const auto& lasersDrawable = laserManager.getLasers();
 
         drawer.addToUpdate(backgroundTextureMap);
-        drawer.addToUpdate(laserTextureMap);
         drawer.addToUpdate(playerDrawableElements);
         for(auto& meteorDrawable: meteorsDrawable) {
             drawer.addToUpdate(meteorDrawable->getDrawableElements());
+        }
+        for(auto& laser: lasersDrawable) {
+            drawer.addToUpdate(laser->getDrawableElements());
         }
         drawer.update(window);
         

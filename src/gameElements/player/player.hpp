@@ -15,9 +15,13 @@ namespace GameElements {
         public:
             Player();
             void update(const std::set<Actions>& playerActions);
+            const std::vector<GameCommon::Point2D> getLasersEmitterPoints();
             GameCommon::DrawableElement* SHIP;
             GameCommon::DrawableElement* GUN_LEFT;
             GameCommon::DrawableElement* GUN_RIGHT;
+        protected:
+            GameCommon::Point2D _laserLeftEmiterPoint;
+            GameCommon::Point2D _laserRightEmiterPoint;
     };
 }
 #endif

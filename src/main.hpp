@@ -13,6 +13,7 @@
 #include "gameElements/projectiles/laser.hpp"
 #include "managers/meteors-manager/meteors-manager.hpp"
 #include "managers/controls-manager/controls-manager.hpp"
+#include "managers/laser-manager/laser-manager.hpp"
 #include "assetList.hpp"
 
 const std::string APPLICATION_NAME = "SPACE DEFENDER";

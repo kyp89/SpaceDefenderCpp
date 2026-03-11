@@ -9,6 +9,7 @@ namespace GameElements {
     class Laser: public GameCommon::DrawableContainer {
         public:
             Laser();
+            Laser(float x, float y);
             void update();
             GameCommon::DrawableElement* LASER;
     };
