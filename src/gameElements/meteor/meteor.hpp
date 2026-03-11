@@ -11,7 +11,7 @@ namespace GameElements
 {
     class Meteor: public GameCommon::DrawableContainer {
         public:
-            Meteor();
+            Meteor(float posX, float posY, int type);
             void update();
             GameCommon::DrawableElement* METEOR;
     };

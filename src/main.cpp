@@ -3,11 +3,12 @@
 int main()
 {
     std::cout << "Starting SFML 3 app...\n";
+    sf::Clock clock;
     Managers::AssetResolver assetResolver(ASSETS_PATH, TEXTURE_LIST);
     Managers::Drawer drawer(assetResolver);
+    Managers::MeteorsManager meteorsManager(50, -50, 950, 1000);
     GameElements::Background background;
     GameElements::Player player;
-    GameElements::Meteor meteor;
     GameElements::Laser laser;
     // Tworzenie okna
     sf::RenderWindow window(
@@ -30,14 +31,11 @@ int main()
     assetResolver.loadAsset("PLAYER_SHIP");
     assetResolver.loadAsset("BACKGROUND_BLUE");
     assetResolver.loadAsset("METEOR_1");
+    assetResolver.loadAsset("METEOR_2");
+    assetResolver.loadAsset("METEOR_3");
+    assetResolver.loadAsset("METEOR_4");
     assetResolver.loadAsset("GUN");
     assetResolver.loadAsset("LASER");
-
-    //auto backgroundTexture = assetResolver.getTexture("BACKGROUND_BLUE");
-
-
-    // sf::Sprite backgroundSprite(backgroundTexture);
-    // backgroundSprite.setPosition({200.f, 0.f});
 
     // Pętla główna
     while (window.isOpen())
@@ -50,22 +48,25 @@ int main()
                 window.close();
             }
         }
-        //std::set<std::string>
+        float deltaTime = clock.restart().asSeconds();
 
-        // Rysowanie
         window.clear(sf::Color(30, 30, 30));
+
         background.update();
-        //player.update(1);
-        meteor.update();
+        meteorsManager.update(deltaTime);
         laser.update();
+
         const auto& backgroundTextureMap = background.getDrawableElements();
         const auto& playerDrawableElements = player.getDrawableElements();
-        const auto& meteorTextureMap = meteor.getDrawableElements();
         const auto& laserTextureMap = laser.getDrawableElements();
+        const auto& meteorsDrawable = meteorsManager.getMeteors();
+
         drawer.addToUpdate(backgroundTextureMap);
         drawer.addToUpdate(laserTextureMap);
         drawer.addToUpdate(playerDrawableElements);
-        drawer.addToUpdate(meteorTextureMap);
+        for(auto& meteorDrawable: meteorsDrawable) {
+            drawer.addToUpdate(meteorDrawable->getDrawableElements());
+        }
         drawer.update(window);
         
         window.display();

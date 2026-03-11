@@ -1,11 +1,11 @@
 #include "meteor.hpp"
 
 namespace GameElements {
-    Meteor::Meteor() {
+    Meteor::Meteor(float posX, float posY, int type) {
         auto meteorPtr = std::make_unique<GameCommon::DrawableElement>();
-        meteorPtr->img = "METEOR_1";
-        meteorPtr->x = 100;
-        meteorPtr->y = 100;
+        meteorPtr->img = "METEOR_" + std::to_string(type);
+        meteorPtr->x = posX;
+        meteorPtr->y = posY;
         meteorPtr->scaleX = 1;
         meteorPtr->scaleY = 1;
         METEOR = meteorPtr.get();
