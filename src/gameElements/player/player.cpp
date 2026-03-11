@@ -34,15 +34,22 @@ namespace GameElements {
       _drawableElementsList.push_back(std::move(shipPtr));
      }
 
-     void Player::update(int move) {
-      if(move == 1) {
-         SHIP->x += 1;
-         GUN_LEFT->x += 1;
-         GUN_RIGHT->x += 1;
-      } else {
-         SHIP->x -= 1;
-         GUN_LEFT->x -= 1;
-         GUN_RIGHT->x -= 1;
+     void Player::update(const std::set<Actions>& playerActions) {
+      float SPEED = 20.0f;
+      for(auto& action: playerActions) {
+         if(action == Actions::PLAYER_MOBE_LEFT && (SHIP->x - SPEED < 0) == false) {
+            SHIP->x -= SPEED;
+            GUN_LEFT->x -= SPEED;
+            GUN_RIGHT->x -= SPEED;
+         }
+         if(action == Actions::PLAYER_MOVE_RIGHT &&  (SHIP->x + SPEED + 200 > 1000) == false) {
+            SHIP->x += SPEED;
+            GUN_LEFT->x += SPEED;
+            GUN_RIGHT->x += SPEED;
+         }
+         if(action == Actions::PLAYER_SHOOT) {
+            //TODO: Emit laser
+         }
       }
      }
 }

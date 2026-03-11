@@ -6,6 +6,7 @@ int main()
     sf::Clock clock;
     Managers::AssetResolver assetResolver(ASSETS_PATH, TEXTURE_LIST);
     Managers::Drawer drawer(assetResolver);
+    Managers::ControlsManager controlManager(KEYS_MAPPING);
     Managers::MeteorsManager meteorsManager(50, -50, 950, 1000);
     GameElements::Background background;
     GameElements::Player player;
@@ -41,8 +42,8 @@ int main()
     while (window.isOpen())
     {
         // Obsługa zdarzeń
-        while (const std::optional<sf::Event> event = window.pollEvent())
-        {
+        while (auto event = window.pollEvent())
+        {   
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
@@ -53,6 +54,9 @@ int main()
         window.clear(sf::Color(30, 30, 30));
 
         background.update();
+
+        controlManager.update();
+        player.update(controlManager.getCurrentActions());
         meteorsManager.update(deltaTime);
         laser.update();
 
